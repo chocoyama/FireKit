@@ -26,10 +26,10 @@ public class FirestoreRepository<T: FirestoreCompatible> {
         collectionRef.addDocument(data: entity.toFirestoreData(), completion: completion)
     }
     
-    public func get(equalQuery: [String: Any], completion: ((T?, Error?) -> Void)?) {
+    public func get(equalQuery: [String: Any]? = nil, completion: (([T]?, Error?) -> Void)?) {
         let ref = collectionRef
         
-        let query = equalQuery.enumerated().reduce(ref) { (query: Query, value: (offset: Int, element: (key: String, value: Any))) -> Query in
+        let query = equalQuery?.enumerated().reduce(ref) { (query: Query, value: (offset: Int, element: (key: String, value: Any))) -> Query in
             if value.offset == 0 {
                 return ref.whereField(value.element.key, isEqualTo: value.element.value)
             } else {
@@ -37,18 +37,17 @@ public class FirestoreRepository<T: FirestoreCompatible> {
             }
         }
         
-        query.getDocuments { (querySnapshot, error) in
+        (query ?? ref).getDocuments { (querySnapshot, error) in
             if let error = error {
                 completion?(nil, error)
                 return
             }
             
-            let entity = querySnapshot?.documents.compactMap { docSnapShot -> T? in
+            let entities = querySnapshot?.documents.compactMap { docSnapShot -> T? in
                 T(firestoreId: docSnapShot.documentID,
                   firestoreData: docSnapShot.data())
-            }.first
-            
-            completion?(entity, nil)
+            }
+            completion?(entities, nil)
         }
     }
     
