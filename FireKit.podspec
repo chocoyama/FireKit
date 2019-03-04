@@ -6,6 +6,10 @@
 #  To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/
 #
 
+# --- Update Command ----------------------------------------------------------- #
+# pod trunk push FireKit.podspec --allow-warnings
+
+
 Pod::Spec.new do |s|
 
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -16,7 +20,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "FireKit"
-  s.version      = "0.0.4"
+  s.version      = "0.0.5"
   s.summary      = "This is FirebaseSDK Wrapper Library."
 
   # This description is used to generate tags and improve search results.
