@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B07438B2277E31200A55FDE /* release.sh in Resources */ = {isa = PBXBuildFile; fileRef = 6B07438A2277E31200A55FDE /* release.sh */; };
+		6B07438D2277E33E00A55FDE /* lint.sh in Resources */ = {isa = PBXBuildFile; fileRef = 6B07438C2277E33E00A55FDE /* lint.sh */; };
 		6B308EBF2222633200E36DA7 /* FireKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B308EB52222633200E36DA7 /* FireKit.framework */; };
 		6B308EC42222633200E36DA7 /* FireKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B308EC32222633200E36DA7 /* FireKitTests.swift */; };
 		6B308EC62222633200E36DA7 /* FireKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B308EB82222633200E36DA7 /* FireKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -33,6 +35,8 @@
 		2BBCEA58FE1952695C77FCE4 /* Pods-FireKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FireKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-FireKit/Pods-FireKit.release.xcconfig"; sourceTree = "<group>"; };
 		3ED3CAF7642C0F06D76B745D /* Pods-FireKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FireKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FireKitTests/Pods-FireKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		4C77C177B8160DA8907B0BA5 /* Pods_FireKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FireKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B07438A2277E31200A55FDE /* release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = release.sh; sourceTree = "<group>"; };
+		6B07438C2277E33E00A55FDE /* lint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = lint.sh; sourceTree = "<group>"; };
 		6B308EB52222633200E36DA7 /* FireKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FireKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B308EB82222633200E36DA7 /* FireKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FireKit.h; sourceTree = "<group>"; };
 		6B308EB92222633200E36DA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -40,7 +44,7 @@
 		6B308EC32222633200E36DA7 /* FireKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireKitTests.swift; sourceTree = "<group>"; };
 		6B308EC52222633200E36DA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B308ECF2222638900E36DA7 /* FireKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = FireKit.podspec; sourceTree = "<group>"; };
-		6B308ED12222672500E36DA7 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Podfile; sourceTree = "<group>"; };
+		6B308ED12222672500E36DA7 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		6B308ED42222699800E36DA7 /* FirestoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRepository.swift; sourceTree = "<group>"; };
 		6B308ED6222269A300E36DA7 /* FireStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorageRepository.swift; sourceTree = "<group>"; };
 		6B308ED8222269B500E36DA7 /* FirestoreCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreCompatible.swift; sourceTree = "<group>"; };
@@ -79,11 +83,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6B07438E2277E34900A55FDE /* bin */ = {
+			isa = PBXGroup;
+			children = (
+				6B07438C2277E33E00A55FDE /* lint.sh */,
+				6B07438A2277E31200A55FDE /* release.sh */,
+			);
+			path = bin;
+			sourceTree = "<group>";
+		};
 		6B308EAB2222633200E36DA7 = {
 			isa = PBXGroup;
 			children = (
 				6B308ED12222672500E36DA7 /* Podfile */,
 				6B308ECF2222638900E36DA7 /* FireKit.podspec */,
+				6B07438E2277E34900A55FDE /* bin */,
 				6B308EB72222633200E36DA7 /* FireKit */,
 				6B308EC22222633200E36DA7 /* FireKitTests */,
 				6B308EB62222633200E36DA7 /* Products */,
@@ -210,6 +224,7 @@
 					};
 					6B308EBD2222633200E36DA7 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -236,8 +251,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B07438B2277E31200A55FDE /* release.sh in Resources */,
 				6B308ED22222672600E36DA7 /* Podfile in Resources */,
 				6B308ED02222638900E36DA7 /* FireKit.podspec in Resources */,
+				6B07438D2277E33E00A55FDE /* lint.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,7 +525,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -535,7 +552,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.chocoyama.FireKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -555,7 +572,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.chocoyama.FireKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -575,7 +592,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.chocoyama.FireKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
