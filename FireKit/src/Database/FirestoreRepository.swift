@@ -24,12 +24,12 @@ public class FirestoreRepository<T: FirestoreCompatible> {
 }
 
 extension FirestoreRepository {
-    public func create(_ entity: T, completion: @escaping (Result<Void, Error>) -> Void) {
+    public func create(_ entity: T, completion: @escaping (Result<T, Error>) -> Void) {
         collectionRef.addDocument(data: entity.toFirestoreData()) { (error) in
             if let error = error {
                 completion(.failure(error))
             } else {
-                completion(.success(()))
+                completion(.success(entity))
             }
         }
     }
