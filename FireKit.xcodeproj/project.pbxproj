@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6B07438B2277E31200A55FDE /* release.sh in Resources */ = {isa = PBXBuildFile; fileRef = 6B07438A2277E31200A55FDE /* release.sh */; };
 		6B07438D2277E33E00A55FDE /* lint.sh in Resources */ = {isa = PBXBuildFile; fileRef = 6B07438C2277E33E00A55FDE /* lint.sh */; };
+		6B1F23B72279756300397910 /* FirestoreQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1F23B62279756300397910 /* FirestoreQueryBuilder.swift */; };
 		6B308EBF2222633200E36DA7 /* FireKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B308EB52222633200E36DA7 /* FireKit.framework */; };
 		6B308EC42222633200E36DA7 /* FireKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B308EC32222633200E36DA7 /* FireKitTests.swift */; };
 		6B308EC62222633200E36DA7 /* FireKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B308EB82222633200E36DA7 /* FireKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -37,6 +38,7 @@
 		4C77C177B8160DA8907B0BA5 /* Pods_FireKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FireKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B07438A2277E31200A55FDE /* release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = release.sh; sourceTree = "<group>"; };
 		6B07438C2277E33E00A55FDE /* lint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = lint.sh; sourceTree = "<group>"; };
+		6B1F23B62279756300397910 /* FirestoreQueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreQueryBuilder.swift; sourceTree = "<group>"; };
 		6B308EB52222633200E36DA7 /* FireKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FireKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B308EB82222633200E36DA7 /* FireKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FireKit.h; sourceTree = "<group>"; };
 		6B308EB92222633200E36DA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -92,6 +94,24 @@
 			path = bin;
 			sourceTree = "<group>";
 		};
+		6B1F23B82279759500397910 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				6B308ED8222269B500E36DA7 /* FirestoreCompatible.swift */,
+				6B308ED42222699800E36DA7 /* FirestoreRepository.swift */,
+				6B1F23B62279756300397910 /* FirestoreQueryBuilder.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		6B1F23B9227975A500397910 /* Strage */ = {
+			isa = PBXGroup;
+			children = (
+				6B308ED6222269A300E36DA7 /* FireStorageRepository.swift */,
+			);
+			path = Strage;
+			sourceTree = "<group>";
+		};
 		6B308EAB2222633200E36DA7 = {
 			isa = PBXGroup;
 			children = (
@@ -137,9 +157,8 @@
 		6B308ED32222693A00E36DA7 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				6B308ED8222269B500E36DA7 /* FirestoreCompatible.swift */,
-				6B308ED42222699800E36DA7 /* FirestoreRepository.swift */,
-				6B308ED6222269A300E36DA7 /* FireStorageRepository.swift */,
+				6B1F23B82279759500397910 /* Database */,
+				6B1F23B9227975A500397910 /* Strage */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -357,6 +376,7 @@
 			files = (
 				6B308ED9222269B500E36DA7 /* FirestoreCompatible.swift in Sources */,
 				6B308ED52222699800E36DA7 /* FirestoreRepository.swift in Sources */,
+				6B1F23B72279756300397910 /* FirestoreQueryBuilder.swift in Sources */,
 				6B308ED7222269A300E36DA7 /* FireStorageRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
