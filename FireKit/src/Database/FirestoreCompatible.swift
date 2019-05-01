@@ -10,7 +10,7 @@ import Foundation
 
 public protocol FirestoreCompatible {
     static var collectionName: String { get }
-    var firestoreId: String? { get }
+    var firestoreId: String? { get set }
     init?(firestoreId: String, firestoreData: [String: Any])
     func toFirestoreData() -> [String: Any]
 }

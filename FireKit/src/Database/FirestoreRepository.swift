@@ -30,9 +30,10 @@ extension FirestoreRepository {
             if let error = error {
                 completion(.failure(error))
             } else {
-                if let documentId = ref?.documentID,
-                    let entity = T(firestoreId: documentId, firestoreData: entity.toFirestoreData()) {
-                    completion(.success(entity))
+                if let documentId = ref?.documentID {
+                    var updatedEntity = entity
+                    updatedEntity.firestoreId = documentId
+                    completion(.success(updatedEntity))
                 } else {
                     completion(.failure(NSError(domain: "", code: 0, userInfo: nil)))
                 }
