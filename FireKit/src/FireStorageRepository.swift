@@ -18,18 +18,22 @@ public class FireStorageRepository {
         uploadTask?.cancel()
     }
     
-    public func put(_ imageData: Data, with name: String, completion: @escaping (URL?, Error?) -> Void) {
+    public func put(_ imageData: Data, with name: String, completion: @escaping (Result<URL?, Error>) -> Void) {
         uploadTask?.cancel()
         
         let ref = Storage.storage().reference().child("images/\(name).jpg")
         uploadTask = ref.putData(imageData, metadata: nil) { (metadata, error) in
             if let error = error {
-                completion(nil, error)
+                completion(.failure(error))
                 return
             }
             
             ref.downloadURL { (url, error) in
-                completion(url, error)
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                completion(.success(url))
             }
         }
     }

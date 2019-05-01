@@ -22,11 +22,17 @@ public class FirestoreRepository<T: FirestoreCompatible> {
         return Firestore.firestore().collection(T.collectionName)
     }
     
-    public func create(_ entity: T, completion: ((Error?) -> Void)?) {
-        collectionRef.addDocument(data: entity.toFirestoreData(), completion: completion)
+    public func create(_ entity: T, completion: ((Result<Void, Error>) -> Void)?) {
+        collectionRef.addDocument(data: entity.toFirestoreData()) { (error) in
+            if let error = error {
+                completion?(.failure(error))
+            } else {
+                completion?(.success(()))
+            }
+        }
     }
     
-    public func get(equalQuery: [String: Any]? = nil, completion: (([T]?, Error?) -> Void)?) {
+    public func get(equalQuery: [String: Any]? = nil, completion: ((Result<[T], Error>) -> Void)?) {
         let ref = collectionRef
         
         let query = equalQuery?.enumerated().reduce(ref) { (query: Query, value: (offset: Int, element: (key: String, value: Any))) -> Query in
@@ -39,7 +45,7 @@ public class FirestoreRepository<T: FirestoreCompatible> {
         
         (query ?? ref).getDocuments { (querySnapshot, error) in
             if let error = error {
-                completion?(nil, error)
+                completion?(.failure(error))
                 return
             }
             
@@ -47,35 +53,51 @@ public class FirestoreRepository<T: FirestoreCompatible> {
                 T(firestoreId: docSnapShot.documentID,
                   firestoreData: docSnapShot.data())
             }
-            completion?(entities, nil)
+            completion?(.success(entities ?? []))
         }
     }
     
-    public func listenAll(listener: @escaping ([T]) -> Void) {
+    public func listenAll(listener: @escaping (Result<[T], Error>) -> Void) {
         registration?.remove()
         
         registration = collectionRef.addSnapshotListener({ (querySnapshot, error) in
+            if let error = error {
+                listener(.failure(error))
+                return
+            }
+            
             let entities = querySnapshot?.documents.compactMap {
                 T(firestoreId: $0.documentID,
                   firestoreData: $0.data())
             }
-            listener(entities ?? [])
+            listener(.success(entities ?? []))
         })
     }
     
-    public func listen(id: String, listener: @escaping (T?) -> Void) {
+    public func listen(id: String, listener: @escaping (Result<T?, Error>) -> Void) {
         registration?.remove()
         
         registration = collectionRef.document(id).addSnapshotListener { (docSnapshot, error) in
-            guard let id = docSnapshot?.documentID, let data = docSnapshot?.data() else {
-                listener(nil)
+            if let error = error {
+                listener(.failure(error))
                 return
             }
-            listener(T(firestoreId: id, firestoreData: data))
+            
+            guard let id = docSnapshot?.documentID, let data = docSnapshot?.data() else {
+                listener(.success(nil))
+                return
+            }
+            listener(.success(T(firestoreId: id, firestoreData: data)))
         }
     }
     
-    public func update(_ fields: [String: [String]], in id: String, completion: ((Error?) -> Void)?) {
-        collectionRef.document(id).updateData(fields, completion: completion)
+    public func update(_ fields: [String: [String]], in id: String, completion: ((Result<Void, Error>) -> Void)?) {
+        collectionRef.document(id).updateData(fields) { (error) in
+            if let error = error {
+                completion?(.failure(error))
+            } else {
+                completion?(.success(()))
+            }
+        }
     }
 }
