@@ -25,11 +25,17 @@ public class FirestoreRepository<T: FirestoreCompatible> {
 
 extension FirestoreRepository {
     public func create(_ entity: T, completion: @escaping (Result<T, Error>) -> Void) {
-        collectionRef.addDocument(data: entity.toFirestoreData()) { (error) in
+        var ref: DocumentReference?
+        ref = collectionRef.addDocument(data: entity.toFirestoreData()) { (error) in
             if let error = error {
                 completion(.failure(error))
             } else {
-                completion(.success(entity))
+                if let documentId = ref?.documentID,
+                    let entity = T(firestoreId: documentId, firestoreData: entity.toFirestoreData()) {
+                    completion(.success(entity))
+                } else {
+                    completion(.failure(NSError(domain: "", code: 0, userInfo: nil)))
+                }
             }
         }
     }
