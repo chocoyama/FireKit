@@ -24,18 +24,18 @@ public class FirestoreRepository<T: FirestoreCompatible> {
 }
 
 extension FirestoreRepository {
-    public func create(_ entity: T, completion: @escaping (Result<T, Error>) -> Void) {
+    public func create(_ entity: T, completion: @escaping (Result<T, FirestoreRepositoryError>) -> Void) {
         var ref: DocumentReference?
         ref = collectionRef.addDocument(data: entity.toFirestoreData()) { (error) in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(.unknown(error)))
             } else {
                 if let documentId = ref?.documentID {
                     var updatedEntity = entity
                     updatedEntity.firestoreId = documentId
                     completion(.success(updatedEntity))
                 } else {
-                    completion(.failure(NSError(domain: "", code: 0, userInfo: nil)))
+                    completion(.failure(.notFoundDocumentId))
                 }
             }
         }
@@ -43,10 +43,10 @@ extension FirestoreRepository {
 }
 
 extension FirestoreRepository {
-    public func get(id: String, completion: @escaping (Result<T?, Error>) -> Void) {
+    public func get(id: String, completion: @escaping (Result<T?, FirestoreRepositoryError>) -> Void) {
         collectionRef.document(id).getDocument { (docSnapshot, error) in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(.unknown(error)))
                 return
             }
             
@@ -59,11 +59,11 @@ extension FirestoreRepository {
         }
     }
     
-    public func get(searchQuery: [SearchQuery]? = nil, completion: @escaping (Result<[T], Error>) -> Void) {
+    public func get(searchQuery: [SearchQuery]? = nil, completion: @escaping (Result<[T], FirestoreRepositoryError>) -> Void) {
         let query = FirestoreQueryBuilder.build(for: collectionRef, by: searchQuery)
         query.getDocuments { (querySnapshot, error) in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(.unknown(error)))
                 return
             }
             
@@ -77,12 +77,12 @@ extension FirestoreRepository {
 }
 
 extension FirestoreRepository {
-    public func listen(id: String, listener: @escaping (Result<T?, Error>) -> Void) {
+    public func listen(id: String, listener: @escaping (Result<T?, FirestoreRepositoryError>) -> Void) {
         registration?.remove()
         
         registration = collectionRef.document(id).addSnapshotListener { (docSnapshot, error) in
             if let error = error {
-                listener(.failure(error))
+                listener(.failure(.unknown(error)))
                 return
             }
             
@@ -94,13 +94,13 @@ extension FirestoreRepository {
         }
     }
     
-    public func listen(searchQuery: [SearchQuery]? = nil, listener: @escaping ((Result<[T], Error>) -> Void)) {
+    public func listen(searchQuery: [SearchQuery]? = nil, listener: @escaping ((Result<[T], FirestoreRepositoryError>) -> Void)) {
         registration?.remove()
         
         let query = FirestoreQueryBuilder.build(for: collectionRef, by: searchQuery)
         registration = query.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
-                listener(.failure(error))
+                listener(.failure(.unknown(error)))
                 return
             }
             
@@ -115,10 +115,10 @@ extension FirestoreRepository {
 }
 
 extension FirestoreRepository {
-    public func update(_ fields: [AnyHashable: Any], id: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    public func update(_ fields: [AnyHashable: Any], id: String, completion: @escaping (Result<Void, FirestoreRepositoryError>) -> Void) {
         collectionRef.document(id).updateData(fields) { (error) in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(.unknown(error)))
             } else {
                 completion(.success(()))
             }
@@ -127,10 +127,10 @@ extension FirestoreRepository {
 }
 
 extension FirestoreRepository {
-    public func delete(id: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    public func delete(id: String, completion: @escaping (Result<Void, FirestoreRepositoryError>) -> Void) {
         collectionRef.document(id).delete { (error) in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(.unknown(error)))
             } else {
                 completion(.success(()))
             }
