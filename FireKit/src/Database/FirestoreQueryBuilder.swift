@@ -47,9 +47,9 @@ class FirestoreQueryBuilder {
         if let order = order {
             switch order {
             case .ascendingBy(let field):
-                query = query?.order(by: field, descending: false)
+                query = (query ?? ref).order(by: field, descending: false)
             case .descendingBy(let field):
-                query = query?.order(by: field, descending: true)
+                query = (query ?? ref).order(by: field, descending: true)
             }
         }
         
