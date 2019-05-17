@@ -17,11 +17,18 @@ public enum SearchQuery {
     case greaterThanOrEqualTo(field: String, value: Any) // >=
 }
 
+public enum Order {
+    case descendingBy(field: String)
+    case ascendingBy(field: String)
+}
+
 class FirestoreQueryBuilder {
-    static func build(for collectionRef: CollectionReference, by searchQuery: [SearchQuery]?) -> Query {
+    static func build(for collectionRef: CollectionReference,
+                      by searchQuery: [SearchQuery]?,
+                      order: Order?) -> Query {
         let ref = collectionRef
         
-        let query = searchQuery?.enumerated().reduce(ref) { (query: Query, value: (offset: Int, element: SearchQuery)) -> Query in
+        var query = searchQuery?.enumerated().reduce(ref) { (query: Query, value: (offset: Int, element: SearchQuery)) -> Query in
             let queryTarget: Query = value.offset == 0 ? ref : query
             switch value.element {
             case .equal(let field, let value):
@@ -34,6 +41,15 @@ class FirestoreQueryBuilder {
                 return queryTarget.whereField(field, isGreaterThan: value)
             case .greaterThanOrEqualTo(let field, let value):
                 return queryTarget.whereField(field, isGreaterThanOrEqualTo: value)
+            }
+        }
+        
+        if let order = order {
+            switch order {
+            case .ascendingBy(let field):
+                query = query?.order(by: field, descending: false)
+            case .descendingBy(let field):
+                query = query?.order(by: field, descending: true)
             }
         }
         
