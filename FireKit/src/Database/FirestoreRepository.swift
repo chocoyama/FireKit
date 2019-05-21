@@ -60,9 +60,9 @@ extension FirestoreRepository {
     }
     
     public func get(searchQuery: [SearchQuery]? = nil,
-                    order: Order? = nil,
+                    orders: [Order]? = nil,
                     completion: @escaping (Result<[T], FirestoreRepositoryError>) -> Void) {
-        let query = FirestoreQueryBuilder.build(for: collectionRef, by: searchQuery, order: order)
+        let query = FirestoreQueryBuilder.build(for: collectionRef, by: searchQuery, orders: orders)
         query.getDocuments { (querySnapshot, error) in
             if let error = error {
                 completion(.failure(.unknown(error)))
@@ -97,11 +97,11 @@ extension FirestoreRepository {
     }
     
     public func listen(searchQuery: [SearchQuery]? = nil,
-                       order: Order? = nil,
+                       orders: [Order]? = nil,
                        listener: @escaping ((Result<[T], FirestoreRepositoryError>) -> Void)) {
         registration?.remove()
         
-        let query = FirestoreQueryBuilder.build(for: collectionRef, by: searchQuery, order: order)
+        let query = FirestoreQueryBuilder.build(for: collectionRef, by: searchQuery, orders: orders)
         registration = query.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 listener(.failure(.unknown(error)))
